@@ -1,0 +1,347 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --w: min(66vw, 290px);
+}
+
+/* ---------- Wooden table ---------- */
+body {
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  background:
+    radial-gradient(
+      ellipse at 40% 45%,
+      rgba(255, 240, 215, 0.25),
+      transparent 70%
+    ),
+    linear-gradient(
+      90deg,
+      #c9a57c,
+      #d3b28d 28%,
+      #c2a078 52%,
+      #d0af89 78%,
+      #c39f76
+    );
+  font-family: "Caveat", "Segoe Print", cursive;
+}
+/* grain: stretched noise = vertical wood fibres */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 88px,
+      rgba(70, 40, 15, 0.18) 88px 90px,
+      transparent 90px 190px,
+      rgba(70, 40, 15, 0.12) 190px 191px
+    ),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='600'><filter id='w'><feTurbulence type='fractalNoise' baseFrequency='.05 .004' numOctaves='4' seed='7'/><feColorMatrix values='0 0 0 0 .3  0 0 0 0 .17  0 0 0 0 .06  0 0 0 1.6 -.55'/></filter><rect width='100%' height='100%' filter='url(%23w)'/></svg>");
+  background-size:
+    auto,
+    400px 600px;
+  opacity: 0.75;
+}
+/* soft vignette */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 45%,
+    rgba(50, 25, 8, 0.35) 100%
+  );
+}
+
+/* peach blooms peeking in the corner, like the reference photo */
+.flowers {
+  position: fixed;
+  top: -40px;
+  right: -50px;
+  width: 230px;
+  height: 200px;
+  pointer-events: none;
+  z-index: 6;
+  filter: blur(1.2px) drop-shadow(-4px 6px 8px rgba(50, 25, 8, 0.35));
+  background:
+    radial-gradient(
+      circle at 34% 58%,
+      #fbd9c0 0 28px,
+      #f2b48f 40px,
+      transparent 42px
+    ),
+    radial-gradient(
+      circle at 62% 42%,
+      #f9cfb2 0 34px,
+      #eea683 50px,
+      transparent 52px
+    ),
+    radial-gradient(
+      circle at 80% 70%,
+      #fde0cb 0 26px,
+      #f0b08b 38px,
+      transparent 40px
+    ),
+    radial-gradient(circle at 18% 28%, #6fa250 0 14px, transparent 16px),
+    radial-gradient(circle at 48% 82%, #79ab57 0 10px, transparent 12px);
+}
+
+.scene {
+  position: relative;
+  width: var(--w);
+  height: calc(var(--w) * 1.42);
+  z-index: 2;
+}
+
+/* ---------- Kraft paper ---------- */
+.kraft {
+  background-color: #c79f72;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='k'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .36  0 0 0 0 .22  0 0 0 0 .1  0 0 0 1.1 -.4'/></filter><rect width='100%' height='100%' filter='url(%23k)'/></svg>"),
+    linear-gradient(135deg, rgba(255, 235, 200, 0.28), rgba(120, 75, 35, 0.12));
+}
+
+/* ---------- Folder ---------- */
+.folder {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 1300px;
+  transform: rotate(-5deg);
+  transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.folder.open {
+  transform: translateX(24%) rotate(-1deg);
+}
+
+.folder-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  box-shadow:
+    0 2px 3px rgba(40, 20, 5, 0.3),
+    0 14px 26px rgba(40, 20, 5, 0.35);
+  z-index: 1;
+}
+/* inner cream sheet, revealed when the cover swings away */
+.inner-sheet {
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  top: 14%;
+  bottom: 5%;
+  background: #fbf2e2;
+  border-radius: 2px;
+  box-shadow:
+    inset 0 0 18px rgba(150, 100, 50, 0.15),
+    0 1px 2px rgba(40, 20, 5, 0.3);
+  display: flex;
+  justify-content: center;
+  padding-top: 10%;
+}
+.inner-sheet p {
+  font-family: "Dancing Script", cursive;
+  font-size: calc(var(--w) * 0.085);
+  color: #7a3a2a;
+}
+
+/* ---------- Heart cover ---------- */
+.cover {
+  position: absolute;
+  left: 0;
+  top: 12%;
+  width: 100%;
+  height: 88%;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 1.3s cubic-bezier(0.5, 0, 0.2, 1);
+  z-index: 3;
+  pointer-events: none;
+  outline: none;
+}
+.folder.open .cover {
+  transform: rotateY(-128deg);
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  filter: drop-shadow(3px 7px 7px rgba(40, 20, 5, 0.38));
+}
+.face.inside {
+  transform: rotateY(180deg);
+}
+
+.shape {
+  position: absolute;
+  inset: 0;
+  clip-path: url(#heartClip);
+  pointer-events: auto;
+  cursor: pointer;
+}
+.shape.inner {
+  filter: brightness(0.93);
+  cursor: default;
+}
+/* paper edge highlight / fold shading along the hinge */
+.shape::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(60, 30, 10, 0.22), transparent 7%);
+  pointer-events: none;
+}
+
+.label {
+  position: absolute;
+  left: 19%;
+  top: 17%;
+  width: 56%;
+  text-align: center;
+  color: #4a2a14;
+  text-shadow:
+    0 1px 0 rgba(255, 240, 215, 0.45),
+    0 -1px 0 rgba(60, 30, 10, 0.25);
+  mix-blend-mode: multiply;
+  line-height: 1;
+  transform: rotate(-3deg);
+  pointer-events: none;
+}
+.label span {
+  display: block;
+  font-family: "Dancing Script", cursive;
+  font-weight: 700;
+}
+.l1 {
+  font-size: calc(var(--w) * 0.09);
+}
+.l2 {
+  font-size: calc(var(--w) * 0.165);
+  margin: 0.08em 0;
+}
+.l3 {
+  font-size: calc(var(--w) * 0.1);
+}
+
+.click-text {
+  position: absolute;
+  left: 22%;
+  top: 60%;
+  font-family: "Caveat", cursive;
+  font-weight: 700;
+  font-size: calc(var(--w) * 0.085);
+  color: #fff4e4;
+  padding: 0.18em 0.8em 0.22em;
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 30%, #c4232f, #8e0f1b 75%);
+  box-shadow:
+    0 2px 4px rgba(40, 10, 5, 0.5),
+    inset 0 1px 1px rgba(255, 200, 190, 0.5);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+  transform: rotate(-3deg);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+.click-text i {
+  font-style: normal;
+}
+@keyframes pulse {
+  0%,
+  100% {
+    transform: rotate(-3deg) scale(1);
+  }
+  50% {
+    transform: rotate(-3deg) scale(1.08);
+  }
+}
+.cover:focus-visible .face.outside {
+  filter: drop-shadow(0 0 6px #fff)
+    drop-shadow(3px 7px 7px rgba(40, 20, 5, 0.38));
+}
+.folder.open .click-text {
+  animation: none;
+}
+
+/* ---------- Flying love notes ---------- */
+.notes-container {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.note {
+  position: absolute;
+  bottom: 14%;
+  padding: 9px 14px 10px;
+  font-family: "Caveat", cursive;
+  font-size: 21px;
+  font-weight: 700;
+  color: #6b2a1f;
+  white-space: nowrap;
+  border-radius: 2px 3px 2px 4px;
+  background-image: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.35),
+    rgba(120, 70, 30, 0.08)
+  );
+  box-shadow:
+    0 1px 1px rgba(40, 20, 5, 0.25),
+    0 6px 10px rgba(40, 20, 5, 0.3);
+  opacity: 0;
+  animation: floatUp ease-out forwards;
+}
+/* little strip of washi tape */
+.note::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 34px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translateX(-50%) rotate(-3deg);
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translate(0, 0) scale(0.4) rotate(0deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  40% {
+    transform: translate(var(--dx1), calc(var(--rise) * -0.4)) scale(0.9)
+      rotate(calc(var(--rot) * 0.5));
+  }
+  100% {
+    transform: translate(var(--dx2), calc(var(--rise) * -1)) scale(1.1)
+      rotate(var(--rot));
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .click-text {
+    animation: none;
+  }
+  .folder,
+  .cover {
+    transition-duration: 0.01s;
+  }
+}

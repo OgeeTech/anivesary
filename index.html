@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy 3-Month Anniversary!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Dancing+Script:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Heart-shaped cut for the cover (scales with the card) -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <clipPath id="heartClip" clipPathUnits="objectBoundingBox">
+        <path
+          d="M0,0.10 C0.09,0.01 0.21,0.03 0.28,0.14 C0.42,-0.04 0.90,-0.04 0.90,0.30 C0.90,0.60 0.45,0.85 0,1 Z"
+        />
+      </clipPath>
+    </svg>
+
+    <div class="flowers" aria-hidden="true"></div>
+
+    <div class="scene">
+      <div class="folder" id="envelope">
+        <!-- Back panel of the kraft folder, with the inner sheet -->
+        <div class="folder-back kraft">
+          <div class="inner-sheet"><p>3 months of us ♥</p></div>
+        </div>
+
+        <!-- Love notes fly out from here -->
+        <div class="notes-container" id="notesContainer"></div>
+
+        <!-- Heart-shaped cover, hinged on the left edge -->
+        <div
+          class="cover"
+          id="heartBtn"
+          role="button"
+          tabindex="0"
+          aria-label="Open the card"
+        >
+          <div class="face outside">
+            <div class="shape kraft">
+              <div class="label">
+                <span class="l1">Happy</span>
+                <span class="l2">3 Months</span>
+                <span class="l3">Anniversary</span>
+              </div>
+              <div class="click-text">Click Me <i>♥</i></div>
+            </div>
+          </div>
+          <div class="face inside">
+            <div class="shape kraft inner"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <audio id="bgMusic" src="song.mp3" preload="auto"></audio>
+    <script src="script.js"></script>
+  </body>
+</html>
